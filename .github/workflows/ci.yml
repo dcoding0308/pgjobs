@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: pgjobs
+          POSTGRES_PASSWORD: pgjobs
+          POSTGRES_DB: pgjobs
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U pgjobs -d pgjobs"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 15
+    env:
+      PGJOBS_TEST_DATABASE_URL: postgresql://pgjobs:pgjobs@localhost:5432/pgjobs
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: uv sync
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy
+      - run: uv run pytest -v

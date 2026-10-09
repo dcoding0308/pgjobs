@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pgjobs
+      POSTGRES_PASSWORD: pgjobs
+      POSTGRES_DB: pgjobs
+    ports:
+      # 5433 on the host avoids clashing with a locally installed PostgreSQL.
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pgjobs -d pgjobs"]
+      interval: 2s
+      timeout: 3s
+      retries: 15

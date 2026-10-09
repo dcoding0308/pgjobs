@@ -1,0 +1,66 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pgjobs"
+version = "0.1.0"
+description = "A small, crash-tested background job queue built on PostgreSQL."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Devansh Raina" }]
+keywords = ["postgresql", "job-queue", "background-jobs", "asyncio"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: AsyncIO",
+    "Topic :: Database",
+]
+dependencies = [
+    "psycopg[binary]>=3.2",
+    "psycopg-pool>=3.2",
+]
+
+[project.optional-dependencies]
+dashboard = [
+    "starlette>=0.40",
+    "uvicorn>=0.30",
+]
+
+[project.scripts]
+pgjobs = "pgjobs.cli:main"
+
+[dependency-groups]
+dev = [
+    "starlette>=0.40",
+    "uvicorn>=0.30",
+    "httpx>=0.27",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.24",
+    "ruff>=0.6",
+    "mypy>=1.11",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pgjobs"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+markers = [
+    "chaos: slow tests that kill worker processes at random",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "ASYNC", "RUF"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/pgjobs"]

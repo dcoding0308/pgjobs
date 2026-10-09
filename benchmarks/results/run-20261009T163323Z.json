@@ -1,0 +1,57 @@
+{
+  "recorded_at": "2026-10-09T16:33:23+00:00",
+  "machine": "Darwin arm64, Python 3.12.13",
+  "throughput": [
+    {
+      "processes": 1,
+      "concurrency_per_process": 1,
+      "jobs": 10000,
+      "seconds": 23.28313395800069,
+      "jobs_per_second": 429.4954458467023
+    },
+    {
+      "processes": 1,
+      "concurrency_per_process": 10,
+      "jobs": 10000,
+      "seconds": 3.7635511249973206,
+      "jobs_per_second": 2657.06500798687
+    },
+    {
+      "processes": 1,
+      "concurrency_per_process": 50,
+      "jobs": 10000,
+      "seconds": 1.7605948329874082,
+      "jobs_per_second": 5679.8985278355185
+    },
+    {
+      "processes": 2,
+      "concurrency_per_process": 50,
+      "jobs": 10000,
+      "seconds": 1.4619162080052774,
+      "jobs_per_second": 6840.337322509458
+    },
+    {
+      "processes": 4,
+      "concurrency_per_process": 50,
+      "jobs": 10000,
+      "seconds": 1.2750788340053987,
+      "jobs_per_second": 7842.652339061304
+    }
+  ],
+  "latency": [
+    {
+      "mode": "LISTEN/NOTIFY + 1s poll",
+      "samples": 40,
+      "p50_ms": 7.780375010042917,
+      "p95_ms": 9.999417001381516,
+      "max_ms": 11.51241701154504
+    },
+    {
+      "mode": "1s polling only",
+      "samples": 40,
+      "p50_ms": 660.6238124950323,
+      "p95_ms": 960.7338339992566,
+      "max_ms": 963.8120830059052
+    }
+  ]
+}
